@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Hydrogen::VERSION
   spec.authors       = ["Thomas Petrachi"]
   spec.email         = ["thomas.petrachi@vodeclic.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Seeds for Space}
+  spec.description   = %q{Seeds for Space}
   spec.homepage      = ""
   spec.license       = "MIT"
 
