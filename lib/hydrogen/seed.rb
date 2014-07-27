@@ -25,7 +25,15 @@ class Hydrogen::Seed
   end
 
   def create
-    base.create attributes
+    seed = base.create attributes
+  ensure
+    unless seed.valid?
+      warn %Q{
+  WARNING - Hydrogen failed to create '#{ base }##{ tag }',
+    Here is the error report :
+    #{ seed.errors.full_messages.join "/" }.
+        }
+    end
   end
 
 
@@ -39,5 +47,9 @@ class Hydrogen::Seed
 
   def md
     File.read md_path
+  end
+
+  def attributes
+    @attributes.merge tag: tag
   end
 end

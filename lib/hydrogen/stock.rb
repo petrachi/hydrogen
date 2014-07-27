@@ -10,7 +10,7 @@ class Hydrogen::Stock
   end
 
   def seed
-    seeds.map(&:seed)
+    seeds.map(&:seed) if base.table_exists?
   end
 
 
