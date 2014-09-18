@@ -1,10 +1,10 @@
-require "hydrogen/seed"
-require "hydrogen/stock"
-require "hydrogen/seeder"
-
-require "hydrogen/version"
-
 module Hydrogen
+  require "hydrogen/seed"
+  require "hydrogen/seeder"
+  require "hydrogen/stock"
+  require "hydrogen/version"
+
+
   def seed
     Seeder.new(name).seed
   end
