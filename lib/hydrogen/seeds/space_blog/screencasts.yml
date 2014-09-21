@@ -1,0 +1,24 @@
+:ruby:
+  :title: "ruby"
+  :brief: "youpi"
+  :pool: "ruby"
+  :published: "true"
+
+:js:
+  :title: "js"
+  :brief: "youpi"
+  :pool: "js"
+
+:rails:
+  :title: "rails"
+  :brief: "youpi"
+  :pool: "ruby"
+  :published: "true"
+  :published_at: "01-05-2020"
+  :series: "vodistoire"
+
+:rails2:
+  :brief: "super"
+  :pool: "ruby"
+  :published: "true"
+  :following: "rails"

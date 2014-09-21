@@ -12,6 +12,11 @@ class Hydrogen::Seed
   end
 
   def seed
+    @seed ||= base.where(tag: tag).first_or_initialize
+  end
+
+
+  def seed!
     create if should_create
   end
 
@@ -21,17 +26,20 @@ class Hydrogen::Seed
 
 
   def should_create
-    !soul_mate
+    # !soul_mate
+    true
   end
 
   def create
-    seed = base.create attributes
+    seed = base.where(tag: tag).first_or_initialize
   ensure
-    unless seed.valid?
+    if seed.update_attributes attributes
+      warn "Hydrogen successfully seeded '#{ base }##{ tag }'"
+    else
       warn %Q{
-  WARNING - Hydrogen failed to create '#{ base }##{ tag }',
+  WARNING - Hydrogen failed to seed '#{ base }##{ tag }',
     Here is the error report :
-    #{ seed.errors.full_messages.join "/" }.
+    #{ seed.errors.full_messages.join " + " }.
         }
     end
   end
@@ -41,7 +49,7 @@ class Hydrogen::Seed
   # TODO: but You may want to detect only by tag (once tag are implemented)
   # TODO: and update the record if needed
   def soul_mate
-    base.where(attributes).any?
+    base.tagged(tag)
   end
 
 
@@ -50,6 +58,31 @@ class Hydrogen::Seed
   end
 
   def attributes
-    @attributes.merge tag: tag
+    @attributes.inject({}, &method(:typecast_attributes)).merge(tag: tag)
+  end
+
+  def typecast_attributes hash, (key, value)
+    hash[key] = value if (value = typecast_attribute key, value)
+    hash
+  end
+
+  def typecast_attribute key, value
+    typecast = base.columns_hash[key.to_s].try :type
+
+    case typecast
+    when :boolean, :datetime
+      value.send "to_#{ typecast }"
+    # when :text
+    #  TODO: .md file parser
+    #  read md file if exist
+    when nil
+      typecast_association key, value
+    else
+      value
+    end
+  end
+
+  def typecast_association key, value
+    seed.association(key).klass.find_by(tag: value) if seed.association(key)
   end
 end
