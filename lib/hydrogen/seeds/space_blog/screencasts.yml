@@ -3,6 +3,7 @@
   :brief: "youpi"
   :pool: "ruby"
   :published: "true"
+  :series: "releases"
 
 :js:
   :title: "js"
@@ -22,3 +23,21 @@
   :pool: "ruby"
   :published: "true"
   :following: "rails"
+
+:rails3:
+  :brief: "awesome"
+  :pool: "ruby"
+  :published: "true"
+  :following: "rails2"
+
+:ruby2:
+  :brief: "incredible"
+  :pool: "ruby"
+  :published: "true"
+  :following: "ruby"
+
+:c:
+  :title: "C#"
+  :brief: "nemesis"
+  :pool: "c"
+  :published: "true"

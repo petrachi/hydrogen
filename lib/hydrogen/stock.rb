@@ -12,7 +12,7 @@ class Hydrogen::Stock
   def seed
     if !base.table_exists?
       warn "Hydrogen skipped '#{ base }': Table doesn't exist"
-    elsif !base.interfered? :tag
+    elsif !base.acts_as_taggables?
       warn "Hydrogen skipped '#{ base }': RKit::ActiveRecordUtilities did not interfered with 'Tag'"
     else
       seeds.map(&:seed!)

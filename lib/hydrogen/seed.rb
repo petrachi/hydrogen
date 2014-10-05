@@ -83,6 +83,8 @@ class Hydrogen::Seed
   end
 
   def typecast_association key, value
-    seed.association(key).klass.find_by(tag: value) if seed.association(key)
+    seed.send(:association_instance_get, key).then do |association|
+      association.klass.find_by(tag: value)
+    end
   end
 end
