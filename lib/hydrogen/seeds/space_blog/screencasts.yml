@@ -1,43 +1,43 @@
-:ruby:
-  :title: "ruby"
-  :brief: "youpi"
-  :pool: "ruby"
-  :published: "true"
-  :series: "releases"
+ruby:
+  title: ruby
+  brief: youpi
+  pool: ruby
+  published: true
+  series: releases
 
-:js:
-  :title: "js"
-  :brief: "youpi"
-  :pool: "js"
+js:
+  title: js
+  brief: youpi
+  pool: js
 
-:rails:
-  :title: "rails"
-  :brief: "youpi"
-  :pool: "ruby"
-  :published: "true"
-  :published_at: "01-05-2020"
-  :series: "vodistoire"
+rails:
+  title: rails
+  brief: youpi
+  pool: ruby
+  published: true
+  published_at: 01-05-2020
+  series: vodistoire
 
-:rails2:
-  :brief: "super"
-  :pool: "ruby"
-  :published: "true"
-  :following: "rails"
+rails2:
+  brief: super
+  pool: ruby
+  published: true
+  following: rails
 
-:rails3:
-  :brief: "awesome"
-  :pool: "ruby"
-  :published: "true"
-  :following: "rails2"
+rails3:
+  brief: awesome
+  pool: ruby
+  published: true
+  following: rails2
 
-:ruby2:
-  :brief: "incredible"
-  :pool: "ruby"
-  :published: "true"
-  :following: "ruby"
+ruby2:
+  brief: incredible
+  pool: ruby
+  published: true
+  following: ruby
 
-:c:
-  :title: "C#"
-  :brief: "nemesis"
-  :pool: "c"
-  :published: "true"
+c:
+  title: C
+  brief: nemesis
+  pool: c
+  published: true

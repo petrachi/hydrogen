@@ -1,12 +1,13 @@
 class Hydrogen::Seed
   attr_accessor :tag, :attributes, :md_path
-  attr_reader :stock
+  attr_reader :stock, :tags
 
   def initialize tag, attributes:, stock:;
     @tag = tag
     @attributes = attributes
 
     @stock = stock
+    @tags = base.pluck(:tag)
 
     @md_path = File.join(File.dirname(__FILE__), "seeds", name, base.name.tableize, "#{ tag }.md")
   end
@@ -17,39 +18,42 @@ class Hydrogen::Seed
 
 
   def seed!
-    create if should_create
+    if should_seed?
+      create
+    else
+      warn %Q{
+HYDROGEN: skipped `#{ base }##{ tag }' - already exists.
+  If you want to force update, set `update' param to `true'
+      }
+    end
   end
 
 
-  delegate :base, :name,
+  delegate :base, :name, :update,
     to: :stock
 
 
-  def should_create
-    # !soul_mate
-    true
+  def should_seed?
+    update || !soul_mate
   end
 
   def create
-    seed = base.where(tag: tag).first_or_initialize
-  ensure
     if seed.update_attributes attributes
-      warn "Hydrogen successfully seeded '#{ base }##{ tag }'"
+      warn %Q{
+HYDROGEN: successfully seeded '#{ base }##{ tag }'"
+      }
     else
       warn %Q{
-  WARNING - Hydrogen failed to seed '#{ base }##{ tag }',
-    Here is the error report :
-    #{ seed.errors.full_messages.join " + " }.
+HYDROGEN: failed to seed '#{ base }##{ tag }',
+  Here is the error report :
+    #{ seed.errors.full_messages.join "\n" }
         }
     end
   end
 
 
-  # TODO: soul mate detect from attributes
-  # TODO: but You may want to detect only by tag (once tag are implemented)
-  # TODO: and update the record if needed
   def soul_mate
-    base.tagged(tag)
+    tags.include? tag
   end
 
 
@@ -70,7 +74,7 @@ class Hydrogen::Seed
     typecast = base.columns_hash[key.to_s].try :type
 
     case typecast
-    when :boolean, :datetime
+    when :datetime
       value.send "to_#{ typecast }"
     # when :text
     #  TODO: .md file parser

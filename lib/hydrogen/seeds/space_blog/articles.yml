@@ -1,9 +1,9 @@
-:one:
-  :title: "one"
-  :brief: "first"
-  :pool: "ruby"
+one:
+  title: one
+  brief: first
+  pool: ruby
 
-:two:
-  :title: "two"
-  :brief: "second"
-  :pool: "ruby"
+two:
+  title: two
+  brief: second
+  pool: ruby

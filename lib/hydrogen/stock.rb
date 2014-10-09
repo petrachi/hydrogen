@@ -11,16 +11,26 @@ class Hydrogen::Stock
 
   def seed
     if !base.table_exists?
-      warn "Hydrogen skipped '#{ base }': Table doesn't exist"
+      warn %Q{
+HYDROGEN: skipped `#{ base }' - Table doesn't exist
+      }
     elsif !base.acts_as_taggables?
-      warn "Hydrogen skipped '#{ base }': RKit::ActiveRecordUtilities did not interfered with 'Tag'"
+      warn %Q{
+HYDROGEN: skipped `#{ base }' - did not return `true' when asked `acts_as_taggables?'
+      }
     else
+      if reset
+        base.destroy_all
+        warn %Q{
+HYDROGEN: just reset `#{ base }' - this is what you asked for ;)
+        }
+      end
       seeds.map(&:seed!)
     end
   end
 
 
-  delegate :name,
+  delegate :name, :update, :reset,
     to: :seeder
 
 

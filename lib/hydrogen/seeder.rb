@@ -1,8 +1,10 @@
 class Hydrogen::Seeder
-  attr_accessor :name
+  attr_accessor :name, :update, :reset
 
-  def initialize name
+  def initialize name, update: false, reset: false
     @name = name
+    @update = update
+    @reset = reset
   end
 
   # TODO: add an option (--force or --reset) wich will 'destroy_all' before seed
