@@ -80,15 +80,15 @@ HYDROGEN: failed to seed '#{ base }##{ tag }',
     #  TODO: .md file parser
     #  read md file if exist
     when nil
-      typecast_association key, value
+      typecast_association key.to_sym, value
     else
       value
     end
   end
 
   def typecast_association key, value
-    seed.send(:association_instance_get, key).then do |association|
-      association.klass.find_by(tag: value)
+    seed.reflections.keys.include?(key).then do |_|
+      seed.association(key).klass.find_by(tag: value)
     end
   end
 end
