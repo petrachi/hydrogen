@@ -1,8 +1,7 @@
 class Hydrogen::Seeder
-  attr_accessor :name, :update, :reset
+  attr_accessor :update, :reset
 
-  def initialize name, update: false, reset: false
-    @name = name
+  def initialize update: false, reset: false
     @update = update
     @reset = reset
   end
@@ -14,7 +13,7 @@ class Hydrogen::Seeder
 
 
   def stocks
-    Dir[File.join(File.dirname(__FILE__), "seeds", Hydrogen.name.to_s, "*.yml")].map do |file|
+    Dir[File.join(Rails.root, "db", "hydrogen", "*.yml")].map do |file|
       Hydrogen::Stock.new file, seeder: self
     end
   end

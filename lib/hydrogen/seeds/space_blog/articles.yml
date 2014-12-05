@@ -1,9 +1,0 @@
-one:
-  title: one
-  brief: first
-  pool: ruby
-
-two:
-  title: two
-  brief: second
-  pool: ruby

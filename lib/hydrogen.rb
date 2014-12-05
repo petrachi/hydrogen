@@ -6,11 +6,7 @@ module Hydrogen
 
 
   def seed **options
-    Seeder.new(name, **options).seed
-  end
-
-  def name
-    Rails.application.class.parent_name.underscore
+    Seeder.new(**options).seed
   end
 
   extend self

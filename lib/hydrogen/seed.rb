@@ -9,7 +9,7 @@ class Hydrogen::Seed
     @stock = stock
     @tags = base.pluck(:tag)
 
-    @md_path = File.join(File.dirname(__FILE__), "seeds", name, base.name.tableize, "#{ tag }.md")
+    @md_path = File.join(Rails.root, "db", "hydrogen", base.name.tableize, "#{ tag }.md")
   end
 
   def seed
@@ -29,7 +29,7 @@ HYDROGEN: skipped `#{ base }##{ tag }' - already exists.
   end
 
 
-  delegate :base, :name, :update,
+  delegate :base, :update,
     to: :stock
 
 

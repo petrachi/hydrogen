@@ -30,7 +30,7 @@ HYDROGEN: just reset `#{ base }' - this is what you asked for ;)
   end
 
 
-  delegate :name, :update, :reset,
+  delegate :update, :reset,
     to: :seeder
 
 
