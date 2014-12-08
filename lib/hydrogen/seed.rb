@@ -10,6 +10,7 @@ class Hydrogen::Seed
     @tags = base.pluck(:tag)
 
     @md_path = File.join(Rails.root, "db", "hydrogen", base.name.tableize, "#{ tag }.md")
+    @md_path = File.join(Rails.root, "db", "hydrogen", base.tableize, "#{ tag }.md")
   end
 
   def seed
@@ -21,10 +22,8 @@ class Hydrogen::Seed
     if should_seed?
       create
     else
-      warn %Q{
-HYDROGEN: skipped `#{ base }##{ tag }' - already exists.
-  If you want to force update, set `update' param to `true'
-      }
+      Hydrogen::Logger.log %Q{skipped `#{ base }##{ tag }' - already exists.
+  If you want to force update, set `update' param to `true'}, level: :debug
     end
   end
 
@@ -39,15 +38,12 @@ HYDROGEN: skipped `#{ base }##{ tag }' - already exists.
 
   def create
     if seed.update_attributes attributes
-      warn %Q{
-HYDROGEN: successfully seeded '#{ base }##{ tag }'"
-      }
+      Hydrogen::Logger.log "successfully seeded '#{ base }##{ tag }'", level: :info
     else
-      warn %Q{
-HYDROGEN: failed to seed '#{ base }##{ tag }',
+      Hydrogen::Logger.log %Q{failed to seed '#{ base }##{ tag }',
   Here is the error report :
     #{ seed.errors.full_messages.join "\n" }
-        }
+        }, level: :debug
     end
   end
 

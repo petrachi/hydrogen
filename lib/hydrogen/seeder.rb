@@ -6,7 +6,6 @@ class Hydrogen::Seeder
     @reset = reset
   end
 
-  # TODO: add an option (--force or --reset) wich will 'destroy_all' before seed
   def seed
     stocks.map &:seed
   end

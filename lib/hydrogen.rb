@@ -1,12 +1,14 @@
 module Hydrogen
-  require 'hydrogen/seed'
-  require 'hydrogen/seeder'
-  require 'hydrogen/stock'
-  require 'hydrogen/version'
-
 
   def seed **options
-    Seeder.new(**options).seed
+    require 'hydrogen/logger'
+    require 'hydrogen/seed'
+    require 'hydrogen/seeder'
+    require 'hydrogen/stock'
+    require 'hydrogen/version'
+
+    Logger.config(**options.fetch(:logger, {}))
+    Seeder.new(**options.except(:logger)).seed
   end
 
   extend self

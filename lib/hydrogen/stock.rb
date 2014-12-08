@@ -11,19 +11,13 @@ class Hydrogen::Stock
 
   def seed
     if !base.table_exists?
-      warn %Q{
-HYDROGEN: skipped `#{ base }' - Table doesn't exist
-      }
+      Hydrogen::Logger.log "skipped `#{ base }' - Table doesn't exist", level: :debug
     elsif !base.acts_as_taggables?
-      warn %Q{
-HYDROGEN: skipped `#{ base }' - did not return `true' when asked `acts_as_taggables?'
-      }
+      Hydrogen::Logger.log "skipped `#{ base }' - did not return `true' when asked `acts_as_taggables?'", level: :debug
     else
       if reset
         base.destroy_all
-        warn %Q{
-HYDROGEN: just reset `#{ base }' - this is what you asked for ;)
-        }
+        Hydrogen::Logger.log "just reset `#{ base }' - this is what you asked for ;)", level: :info
       end
       seeds.map(&:seed!)
     end
