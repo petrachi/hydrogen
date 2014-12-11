@@ -62,10 +62,16 @@ class Hydrogen::Seed
       @attributes.inject attributes, &method(:typecast_attributes)
 
       @md_paths.inject attributes do |hash, path|
-        hash[File.basename(path, ".md")] =
-          RKit::Parser::Base.parse(path,
-            frame: Struct.new(*attributes.keys).new(*attributes.values)
-          )
+        key = File.basename(path, ".md")
+        value = RKit::Parser::Base.parse(path, frame: Struct.new(*attributes.keys).new(*attributes.values))
+
+        if hash.has_key? key
+          Hydrogen::Logger.log %Q{skipped '#{ base }##{ tag }/#{key}' - file ignored.
+  This errors occurs if you try to process an attribute value through an .md file,
+  when the attribute has already been set in the .yml file. }, level: :debug
+        else
+          hash[key] = value
+        end
         hash
       end
     end
