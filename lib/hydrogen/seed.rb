@@ -9,8 +9,7 @@ class Hydrogen::Seed
     @stock = stock
     @tags = base.pluck(:tag)
 
-    @md_path = File.join(Rails.root, "db", "hydrogen", base.name.tableize, "#{ tag }.md")
-    @md_path = File.join(Rails.root, "db", "hydrogen", base.tableize, "#{ tag }.md")
+    @md_paths = Dir[File.join(Rails.root, "db", "hydrogen", base.tableize, tag, "*.md")]
   end
 
   def seed
@@ -58,7 +57,18 @@ class Hydrogen::Seed
   end
 
   def attributes
-    @attributes.inject({}, &method(:typecast_attributes)).merge(tag: tag)
+    {tag: tag}.tap do |attributes|
+
+      @attributes.inject attributes, &method(:typecast_attributes)
+
+      @md_paths.inject attributes do |hash, path|
+        hash[File.basename(path, ".md")] =
+          RKit::Parser::Base.parse(path,
+            frame: Struct.new(*attributes.keys).new(*attributes.values)
+          )
+        hash
+      end
+    end
   end
 
   def typecast_attributes hash, (key, value)
@@ -72,9 +82,6 @@ class Hydrogen::Seed
     case typecast
     when :datetime
       value.send "to_#{ typecast }"
-    # when :text
-    #  TODO: .md file parser
-    #  read md file if exist
     when nil
       typecast_association key.to_sym, value
     else
@@ -87,4 +94,5 @@ class Hydrogen::Seed
       seed.association(key).klass.find_by(tag: value)
     end
   end
+
 end

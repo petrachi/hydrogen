@@ -1,10 +1,10 @@
 class Hydrogen::Stock
-  attr_accessor :base, :yml
+  attr_accessor :base, :dir
   attr_reader :seeder
 
-  def initialize yml, seeder:;
-    @base = File.basename(yml, ".yml").classify.constantize
-    @yml = yml
+  def initialize dir, seeder:;
+    @base = File.basename(dir).classify.constantize
+    @dir = dir
 
     @seeder = seeder
   end
@@ -29,8 +29,10 @@ class Hydrogen::Stock
 
 
   def seeds
-    YAML.load_file(yml).map do |tag, attributes|
-      Hydrogen::Seed.new tag, attributes: attributes, stock: self
+    Dir[File.join(dir, "*.yml")].map do |file|
+      Hydrogen::Seed.new File.basename(file, '.yml'),
+        attributes: YAML.load_file(file),
+        stock: self
     end
   end
 end

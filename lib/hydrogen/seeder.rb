@@ -12,8 +12,8 @@ class Hydrogen::Seeder
 
 
   def stocks
-    Dir[File.join(Rails.root, "db", "hydrogen", "*.yml")].map do |file|
-      Hydrogen::Stock.new file, seeder: self
-    end
+    Dir[File.join(Rails.root, "db", "hydrogen", "*")]
+      .select{ |file| File.directory? file }
+      .map{ |file| Hydrogen::Stock.new file, seeder: self }
   end
 end
