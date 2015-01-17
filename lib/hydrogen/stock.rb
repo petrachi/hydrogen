@@ -3,14 +3,16 @@ class Hydrogen::Stock
   attr_reader :seeder
 
   def initialize dir, seeder:;
-    @base = File.basename(dir).classify.constantize
+    @base = File.basename(dir).classify.safe_constantize
     @dir = dir
 
     @seeder = seeder
   end
 
   def seed
-    if !base.table_exists?
+    if !base
+      Hydrogen::Logger.log "skipped `#{ File.basename(dir).classify }' - Uninitialized constant", level: :debug
+    elsif !base.table_exists?
       Hydrogen::Logger.log "skipped `#{ base }' - Table doesn't exist", level: :debug
     elsif !base.acts_as_taggables?
       Hydrogen::Logger.log "skipped `#{ base }' - did not return `true' when asked `acts_as_taggables?'", level: :debug
