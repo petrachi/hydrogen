@@ -78,7 +78,7 @@ class Hydrogen::Seed
   end
 
   def typecast_attributes hash, (key, value)
-    hash[key] = value if (value = typecast_attribute key, value)
+    hash[key] = typecast_attribute(key, value)
     hash
   end
 
